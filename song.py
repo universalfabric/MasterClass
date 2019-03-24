@@ -3,7 +3,7 @@ class Song:
 
     Attributes:
         title (str): The title of the song
-        artist (Artist): An artist object representing the songs creator.
+        artist (str): Name of the songs creator.
         duration (int): The duration of the song in seconds.  May be zero
     """
 
@@ -12,6 +12,11 @@ class Song:
         self.artist = artist
         self.duration = duration
 
+    def get_title(self):
+        return self.get_title
+
+    name = property(get_title)
+
 
 class Album:
     """ Class to represent an Album, using it's track list
@@ -19,7 +24,7 @@ class Album:
     Attributes:
         name (str): The name of the album.
         year (int): The year was album was released.
-        artist: (Artist): The artist responsible for the album. If not specified,
+        artist: (str): The artist responsible for the album. If not specified,
         the artist will default to an artist with the name "Various Artists".
         tracks (List[Song]):  A list of the songs on the album.
 
@@ -41,15 +46,18 @@ class Album:
         """Adds a song to the track list
 
         Args:
-            song (Song): A song to add.
+            song (Song): The title of a song to add.
             position (Optional[int]): If specified, the song will be added to that position
                 in the track list - inserting it between other songs if necessary.
                 Otherwise, the song will be added to the end of the list.
         """
-        if position is None:
-            self.tracks.append(song)
-        else:
-            self.tracks.insert(position, song)
+        song_found = find_object(song, self.tracks)
+        if song_found is None:
+            song_found = Song(song, self.artist)
+            if position is None:
+                self.tracks.append(song_found)
+            else:
+                self.tracks.insert(position, song_found)
 
 
 class Artist:
@@ -92,7 +100,7 @@ class Artist:
         album_found = find_object(name, self.albums)
         if album_found is None:
             print(name + " not found")
-            album_found = Album(name, year, self)
+            album_found = Album(name, year, self.name)
             self.add_album(album_found)
         else:
             print("Found album " + name)
@@ -135,7 +143,7 @@ def create_checkfile(artist_list):
         for new_artist in artist_list:
             for new_album in new_artist.albums:
                 for new_song in new_album.tracks:
-                    print("{0.name}\t{1.name}\t{1.year}\t{2.title}".format(new_artist, new_album, new_song),
+                    print("{0.name}\t{1.name}\t{1.year}\t{2.name}".format(new_artist, new_album, new_song),
                         file=checkfile)
 
 
