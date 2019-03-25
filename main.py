@@ -1,20 +1,25 @@
-from player import Player
+from playerlt import Player
+from enemy import Enemy, Troll, VampireKing
 
 mike = Player("Mike")
 
-print(mike.name)
-print(mike.lives)
-mike.lives -= 1
-print(mike)
+ugly_troll = Troll("Pug")
+print("Ugly troll - {}".format(ugly_troll))
 
-mike.lives -= 1
-print(mike)
+another_troll = Troll("Ug")
+print("Another troll - {}".format(another_troll))
 
-mike.lives -= 1
-print(mike)
+brother = Troll("Urg")
+print(brother)
 
-mike.lives -= 1
-print(mike)
+ugly_troll.grunt()
+another_troll.grunt()
+brother.grunt()
 
-mike.lives -= 1
-print(mike)
+nosferatu = VampireKing("Nosferatu Rex")
+nosferatu.speak()
+
+
+while nosferatu.alive:
+        nosferatu.take_damage(20)
+        print(nosferatu)
